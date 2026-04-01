@@ -1,0 +1,21 @@
+# Visual Studio / .NET
+.vs/
+bin/
+obj/
+*.user
+*.suo
+
+# Orijinal Güvenlik: Kullanıcının Yerel Verileri
+# ASLA GITHUB'A YÜKLENMEMELİDİR. HESAPLAR VE ŞİFRELER BURADA DURUR!
+accounts.json
+settings.json
+errors.txt
+build_errors.txt
+
+# NuGet
+packages/
+*.nupkg
+
+# Temporary files
+*.tmp
+*.log
