@@ -19,10 +19,10 @@ jobs:
         uses: microsoft/setup-msbuild@v1.1
 
       - name: Restore NuGet packages
-        run: nuget restore RobloxMultiLauncher.sln
+        run: nuget restore src\RobloxMultiLauncher.sln
 
       - name: Build Solution
-        run: msbuild RobloxMultiLauncher.sln /p:Configuration=Release
+        run: msbuild src\RobloxMultiLauncher.sln /p:Configuration=Release
 
       - name: Create Release Artifact Folder
         run: |
