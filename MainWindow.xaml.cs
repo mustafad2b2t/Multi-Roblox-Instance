@@ -55,6 +55,15 @@ namespace RobloxMultiLauncher
             DetectRobloxPath();
             InitTray();
             UpdateCounts();
+            RefreshGameList();
+        }
+
+        private void RefreshGameList()
+        {
+            CbGlobalGame.ItemsSource = null;
+            CbGlobalGame.ItemsSource = _settings.SavedGames;
+            if (_settings.SavedGames.Count > 0)
+                CbGlobalGame.SelectedIndex = 0;
         }
 
         private void SetupBypasses()
@@ -238,6 +247,57 @@ namespace RobloxMultiLauncher
             SaveAccounts();
             UpdateCounts();
             SetStatus($"Removed {selected.Count} account(s).");
+        }
+
+        private void SaveSettings()
+        {
+            try
+            {
+                System.IO.File.WriteAllText("settings.json",
+                    Newtonsoft.Json.JsonConvert.SerializeObject(_settings, Newtonsoft.Json.Formatting.Indented));
+            }
+            catch { /* Silently fail */ }
+        }
+
+        // ── Manage Games ──────────────────────────────────────────────────────
+        private void BtnManageGames_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new ManageGamesWindow(_settings.SavedGames) { Owner = this };
+            if (win.ShowDialog() == true && win.DidChange)
+            {
+                _settings.SavedGames = win.Games.ToList();
+                SaveSettings();
+                RefreshGameList();
+                SetStatus("Saved games updated.");
+            }
+        }
+
+        // ── Set Target Game for Selected ──────────────────────────────────────
+        private void BtnSetTargetGame_Click(object sender, RoutedEventArgs e)
+        {
+            if (CbGlobalGame.SelectedValue == null)
+            {
+                MessageBox.Show("Please select a target game from the dropdown first.", "No Game Selected", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string newPlaceId = CbGlobalGame.SelectedValue.ToString();
+            
+            var selected = DgAccounts.SelectedItems.OfType<RobloxAccount>().ToList();
+            if (selected.Count == 0)
+            {
+                MessageBox.Show("Please select one or more accounts from the list below to apply the game to.", "No Accounts Selected", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            foreach (var acc in selected)
+            {
+                acc.PlaceId = newPlaceId;
+            }
+
+            DgAccounts.Items.Refresh();
+            SaveAccounts();
+            SetStatus($"Updated {selected.Count} account(s) to play '{((SavedGame)CbGlobalGame.SelectedItem).Name}'.");
         }
 
         // ── Settings ──────────────────────────────────────────────────────────

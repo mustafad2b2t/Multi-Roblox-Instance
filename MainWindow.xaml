@@ -32,7 +32,7 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="#3c3c3c"/>
             <Setter Property="Padding" Value="14,8"/>
-            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Margin" Value="0,0,8,8"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
@@ -139,6 +139,69 @@
             <Setter Property="ColumnHeaderHeight" Value="38"/>
         </Style>
 
+        <!-- Dark ComboBox -->
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Border x:Name="border" Background="#252526" BorderBrush="#3c3c3c" BorderThickness="1" CornerRadius="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="24"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="▼" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#cccccc" FontSize="10"/>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="#333333"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="#1e1e1e"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style TargetType="ComboBox" x:Key="DarkComboBox">
+            <Setter Property="Background" Value="#252526"/>
+            <Setter Property="Foreground" Value="#cccccc"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="ToggleButton" Template="{StaticResource ComboBoxToggleButton}" Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press"/>
+                            <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="8,4" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+                                <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" Background="#252526" BorderThickness="1" BorderBrush="#3c3c3c"/>
+                                    <ScrollViewer Margin="0" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background" Value="#252526"/>
+                        <Setter Property="Foreground" Value="#cccccc"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#333333"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#04395e"/>
+                                <Setter Property="Foreground" Value="#ffffff"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="DataGridColumnHeader">
             <Setter Property="Background" Value="#252526"/>
             <Setter Property="Foreground" Value="#cccccc"/>
@@ -211,28 +274,34 @@
         </Border>
 
         <!-- Command Toolbar -->
-        <Border Grid.Row="1" Background="#1e1e1e" Padding="20,16,20,12">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="+ Add Account" Style="{StaticResource PrimaryBtn}" Click="BtnAdd_Click"/>
-                    
-                    <Rectangle Width="1" Fill="#333333" Margin="8,4,16,4"/>
-                    
-                    <Button Content="▶ Launch All" Style="{StaticResource ToolbarBtn}" Foreground="#89d185" Click="BtnLaunchAll_Click"/>
-                    <Button Content="▶ Launch Selected" Style="{StaticResource ToolbarBtn}" Click="BtnLaunchSel_Click"/>
-                    <Button Content="⏹ Stop All" Style="{StaticResource DangerBtn}" Click="BtnStopAll_Click"/>
-                    
-                    <Rectangle Width="1" Fill="#333333" Margin="8,4,16,4"/>
-                    
-                    <Button Content="⊞ Auto Arrange" Style="{StaticResource ToolbarBtn}" Click="BtnArrange_Click"/>
-                    <Button Content="AFK All ON" Style="{StaticResource ToolbarBtn}" Click="BtnAfkAll_Click"/>
-                    <Button Content="AFK All OFF" Style="{StaticResource ToolbarBtn}" Click="BtnAfkNone_Click"/>
-                    
-                    <Rectangle Width="1" Fill="#333333" Margin="8,4,16,4"/>
-                    
-                    <Button Content="🗑 Remove" Style="{StaticResource ToolbarBtn}" Click="BtnRemove_Click"/>
-                </StackPanel>
-            </ScrollViewer>
+        <Border Grid.Row="1" Background="#1e1e1e" Padding="20,16,20,4">
+            <WrapPanel Orientation="Horizontal" VerticalAlignment="Top">
+                <Button Content="+ Add Account" Style="{StaticResource PrimaryBtn}" Click="BtnAdd_Click"/>
+                
+                <Rectangle Width="1" Fill="#333333" Margin="8,4,16,12"/>
+                
+                <Button Content="▶ Launch All" Style="{StaticResource ToolbarBtn}" Foreground="#89d185" Click="BtnLaunchAll_Click"/>
+                <Button Content="▶ Launch Selected" Style="{StaticResource ToolbarBtn}" Click="BtnLaunchSel_Click"/>
+                <Button Content="⏹ Stop All" Style="{StaticResource DangerBtn}" Click="BtnStopAll_Click" Margin="0,0,8,8"/>
+                
+                <Rectangle Width="1" Fill="#333333" Margin="8,4,16,12"/>
+                
+                <Button Content="⊞ Auto Arrange" Style="{StaticResource ToolbarBtn}" Click="BtnArrange_Click"/>
+                <Button Content="AFK All ON" Style="{StaticResource ToolbarBtn}" Click="BtnAfkAll_Click"/>
+                <Button Content="AFK All OFF" Style="{StaticResource ToolbarBtn}" Click="BtnAfkNone_Click"/>
+                
+                <Rectangle Width="1" Fill="#333333" Margin="8,4,16,12"/>
+                
+                <Button Content="🗑 Remove" Style="{StaticResource ToolbarBtn}" Click="BtnRemove_Click"/>
+
+                <Rectangle Width="1" Fill="#333333" Margin="8,4,16,12"/>
+
+                <Button Content="🎮 Manage Games" Style="{StaticResource ToolbarBtn}" Click="BtnManageGames_Click"/>
+                
+                <TextBlock Text="Set Game:" Foreground="#cccccc" VerticalAlignment="Center" Margin="8,0,4,8" FontSize="11"/>
+                <ComboBox x:Name="CbGlobalGame" Style="{StaticResource DarkComboBox}" Width="130" Height="32" DisplayMemberPath="Name" SelectedValuePath="PlaceId" Margin="0,0,4,8" />
+                <Button Content="Apply to Selected" Style="{StaticResource ToolbarBtn}" Click="BtnSetTargetGame_Click"/>
+            </WrapPanel>
         </Border>
 
         <!-- DataGrid Area -->

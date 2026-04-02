@@ -1,0 +1,116 @@
+<Window x:Class="RobloxMultiLauncher.Views.ManageGamesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Manage Saved Games" Height="450" Width="400"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#1e1e1e" Foreground="#cccccc" FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <!-- Reusing base styles from MainWindow -->
+        <Style TargetType="Button" x:Key="BtnPrimary">
+            <Setter Property="Background" Value="#0e639c"/>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="3" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="b" Property="Background" Value="#1177bb"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button" x:Key="BtnDanger">
+            <Setter Property="Background" Value="#702020"/>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="3" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="b" Property="Background" Value="#902626"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox" x:Key="Input">
+            <Setter Property="Background" Value="#252526" />
+            <Setter Property="Foreground" Value="#ffffff" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#3c3c3c" />
+            <Setter Property="Padding" Value="8,6" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="🎮 Manage Saved Games" FontSize="18" Foreground="#ffffff" Margin="0,0,0,16"/>
+
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                <TextBlock Text="Game Name" Foreground="#858585" FontSize="11" Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtName" Style="{StaticResource Input}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="0,0,8,0">
+                <TextBlock Text="Place ID" Foreground="#858585" FontSize="11" Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtPlaceId" Style="{StaticResource Input}"/>
+            </StackPanel>
+
+            <Button Grid.Column="2" Content="Add" Style="{StaticResource BtnPrimary}" VerticalAlignment="Bottom" Click="BtnAddGame_Click"/>
+        </Grid>
+
+        <ListBox x:Name="ListGames" Grid.Row="2" Background="#252526" BorderBrush="#3c3c3c" Foreground="#cccccc" 
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,0,8,0" />
+                        <TextBlock Text="{Binding PlaceId, StringFormat='(ID: {0})'}" Foreground="#aaaaaa" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Grid Grid.Row="3" Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="0" Content="Remove Selected" Style="{StaticResource BtnDanger}" Click="BtnRemoveGame_Click"/>
+            <Button Grid.Column="2" Content="Save &amp; Close" Style="{StaticResource BtnPrimary}" Click="BtnSaveClose_Click"/>
+        </Grid>
+    </Grid>
+</Window>
