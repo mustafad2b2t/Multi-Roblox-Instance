@@ -6,7 +6,7 @@
 [![WPF](https://img.shields.io/badge/WPF-C%23_.NET_4.8-13A89E.svg?style=for-the-badge&logo=csharp)](https://dotnet.microsoft.com/)
 [![Architecture](https://img.shields.io/badge/Architecture-MVVM-5C2D91.svg?style=for-the-badge&logo=visualstudio)](#)
 [![License](https://img.shields.io/badge/License-MIT-007EC6.svg?style=for-the-badge&logo=open-source-initiative)](#)
-[![Download Latest Release](https://img.shields.io/github/v/release/mustafad2b2t/Multi-Roblox-Instance?label=Download%20Latest&style=for-the-badge)](https://github.com/mustafad2b2t/Multi-Roblox-Instance/releases/latest/download/RobloxMultiLauncher.exe)
+[![Download Latest Release](https://img.shields.io/github/v/release/mustafad2b2t/Multi-Roblox-Instance?sort=semver&cacheSeconds=0&style=for-the-badge)](https://github.com/mustafad2b2t/Multi-Roblox-Instance/releases/latest)
 
 </div>
 
