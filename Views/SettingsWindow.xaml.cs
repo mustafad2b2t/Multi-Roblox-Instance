@@ -3,12 +3,15 @@ using System.IO;
 using System.Windows;
 using Newtonsoft.Json;
 using RobloxMultiLauncher.Models;
+using RobloxMultiLauncher.Core;
 
 namespace RobloxMultiLauncher.Views
 {
     public partial class SettingsWindow : Window
     {
-        private const string SettingsFile = "settings.json";
+        private static string SettingsFile => AppPaths.Settings;
+
+
 
         public AppSettings Settings { get; private set; }
 

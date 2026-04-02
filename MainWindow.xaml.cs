@@ -13,14 +13,18 @@ using RobloxMultiLauncher.Dialogs;
 using RobloxMultiLauncher.Models;
 using RobloxMultiLauncher.Services;
 using RobloxMultiLauncher.Views;
+using RobloxMultiLauncher.Core;
 using MessageBox = System.Windows.MessageBox;
+
 
 namespace RobloxMultiLauncher
 {
     public partial class MainWindow : Window
     {
         // ── Constants ──────────────────────────────────────────────────────────
-        private const string AccountsFile = "accounts.json";
+        private string AccountsFile => AppPaths.Accounts;
+        private string SettingsFile => AppPaths.Settings;
+
 
         // ── State ──────────────────────────────────────────────────────────────
         public ObservableCollection<RobloxAccount> Accounts { get; }
@@ -253,11 +257,12 @@ namespace RobloxMultiLauncher
         {
             try
             {
-                System.IO.File.WriteAllText("settings.json",
+                System.IO.File.WriteAllText(SettingsFile,
                     Newtonsoft.Json.JsonConvert.SerializeObject(_settings, Newtonsoft.Json.Formatting.Indented));
             }
             catch { /* Silently fail */ }
         }
+
 
         // ── Manage Games ──────────────────────────────────────────────────────
         private void BtnManageGames_Click(object sender, RoutedEventArgs e)
@@ -316,6 +321,12 @@ namespace RobloxMultiLauncher
         {
             HideToTray();
         }
+
+        private void BtnOpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            AppPaths.OpenDataFolder();
+        }
+
 
         // ── Per-row buttons ───────────────────────────────────────────────────
         private async void BtnLaunchSingle_Click(object sender, RoutedEventArgs e)

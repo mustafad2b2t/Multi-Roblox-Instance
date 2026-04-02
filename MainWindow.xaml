@@ -267,9 +267,11 @@
                 </StackPanel>
                 
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <Button Content="📁 Open Folder" Style="{StaticResource IconBtn}" Click="BtnOpenFolder_Click" Foreground="#cccccc"/>
                     <Button Content="⚙ Settings" Style="{StaticResource IconBtn}" Click="BtnSettings_Click" Foreground="#cccccc"/>
                     <Button Content="↓ To Tray" Style="{StaticResource IconBtn}" Click="BtnMinimizeTray_Click" Foreground="#cccccc"/>
                 </StackPanel>
+
             </Grid>
         </Border>
 

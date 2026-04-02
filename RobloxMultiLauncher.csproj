@@ -108,6 +108,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\AppPaths.cs" />
+
     <Compile Include="Dialogs\AddAccountDialog.xaml.cs">
       <DependentUpon>AddAccountDialog.xaml</DependentUpon>
     </Compile>
