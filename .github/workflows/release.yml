@@ -27,7 +27,7 @@ jobs:
       - name: Create Release Artifact Folder
         run: |
           mkdir release
-          copy "bin\Release\RobloxMultiLauncher.exe" release\
+          copy "src\bin\Release\RobloxMultiLauncher.exe" release\
 
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v4
