@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.png" alt="Logo" width="120" style="border-radius:20px"/>
+  <img src="src/logo.png" alt="Logo" width="120" style="border-radius:20px"/>
   <h1>Roblox Elite Multi-Instance Launcher</h1>
   <p>Open-source Windows WPF application for securely launching and managing multiple Roblox clients with encryption and optimized process handling.</p>
 
