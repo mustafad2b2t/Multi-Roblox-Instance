@@ -287,6 +287,7 @@ namespace RobloxMultiLauncher
             }
 
             string newPlaceId = CbGlobalGame.SelectedValue.ToString();
+            string newPrivateLink = (CbGlobalGame.SelectedItem as SavedGame)?.PrivateServerLink;
             
             var selected = DgAccounts.SelectedItems.OfType<RobloxAccount>().ToList();
             if (selected.Count == 0)
@@ -298,6 +299,7 @@ namespace RobloxMultiLauncher
             foreach (var acc in selected)
             {
                 acc.PlaceId = newPlaceId;
+                acc.PrivateServerLink = newPrivateLink;
             }
 
             DgAccounts.Items.Refresh();
@@ -562,6 +564,20 @@ namespace RobloxMultiLauncher
                 _trayIcon?.Dispose();
                 SaveAccounts();
             }
+        }
+    }
+
+    public class PrivServerConverter : System.Windows.Data.IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string link = value as string;
+            return string.IsNullOrWhiteSpace(link) ? "🌐 Public" : "🔒 Private";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

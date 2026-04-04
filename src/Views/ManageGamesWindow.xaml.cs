@@ -22,22 +22,30 @@ namespace RobloxMultiLauncher.Views
         {
             string name = TxtName.Text.Trim();
             string pid = TxtPlaceId.Text.Trim();
+            string plink = TxtPrivateLink.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(pid) || !System.Text.RegularExpressions.Regex.IsMatch(pid, @"^\d+$"))
+            if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show("Please enter a valid Game Name and a numeric Place ID.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter a Game Name.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (Games.Any(g => g.PlaceId == pid))
+            if (string.IsNullOrWhiteSpace(pid) && !string.IsNullOrWhiteSpace(plink))
             {
-                MessageBox.Show("A game with this Place ID already exists.", "Duplicate", MessageBoxButton.OK, MessageBoxImage.Warning);
+                var match = System.Text.RegularExpressions.Regex.Match(plink, @"roblox\.com/games/(\d+)");
+                if (match.Success) pid = match.Groups[1].Value;
+            }
+
+            if (string.IsNullOrWhiteSpace(pid) || !System.Text.RegularExpressions.Regex.IsMatch(pid, @"^\d+$"))
+            {
+                MessageBox.Show("Please enter a numeric Place ID (or provide a Private Server Link).", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            Games.Add(new SavedGame { Name = name, PlaceId = pid });
+            Games.Add(new SavedGame { Name = name, PlaceId = pid, PrivateServerLink = plink });
             TxtName.Clear();
             TxtPlaceId.Clear();
+            TxtPrivateLink.Clear();
             DidChange = true;
         }
 

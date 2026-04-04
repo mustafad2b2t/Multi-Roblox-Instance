@@ -1,7 +1,7 @@
 <Window x:Class="RobloxMultiLauncher.Views.ManageGamesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Manage Saved Games" Height="450" Width="400"
+        Title="Manage Saved Games" Height="500" Width="450"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         Background="#1e1e1e" Foreground="#cccccc" FontFamily="Segoe UI">
 
@@ -71,23 +71,31 @@
         <TextBlock Grid.Row="0" Text="🎮 Manage Saved Games" FontSize="18" Foreground="#ffffff" Margin="0,0,0,16"/>
 
         <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             
-            <StackPanel Grid.Column="0" Margin="0,0,8,0">
+            <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,4,8">
                 <TextBlock Text="Game Name" Foreground="#858585" FontSize="11" Margin="0,0,0,4"/>
                 <TextBox x:Name="TxtName" Style="{StaticResource Input}"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Margin="0,0,8,0">
+            <StackPanel Grid.Row="0" Grid.Column="1" Margin="4,0,0,8">
                 <TextBlock Text="Place ID" Foreground="#858585" FontSize="11" Margin="0,0,0,4"/>
                 <TextBox x:Name="TxtPlaceId" Style="{StaticResource Input}"/>
             </StackPanel>
 
-            <Button Grid.Column="2" Content="Add" Style="{StaticResource BtnPrimary}" VerticalAlignment="Bottom" Click="BtnAddGame_Click"/>
+            <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,4,0">
+                <TextBlock Text="Private Server Link (Optional)" Foreground="#858585" FontSize="11" Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtPrivateLink" Style="{StaticResource Input}"/>
+            </StackPanel>
+
+            <Button Grid.Row="1" Grid.Column="1" Content="+ Add Game Entry" Style="{StaticResource BtnPrimary}" VerticalAlignment="Bottom" Height="34" Margin="4,0,0,0" Click="BtnAddGame_Click"/>
         </Grid>
 
         <ListBox x:Name="ListGames" Grid.Row="2" Background="#252526" BorderBrush="#3c3c3c" Foreground="#cccccc" 
