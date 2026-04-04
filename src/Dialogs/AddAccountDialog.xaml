@@ -96,7 +96,7 @@
         <TextBox x:Name="TxtPlaceId" Style="{StaticResource Input}" Margin="0,0,0,16"/>
 
         <!-- Private Server -->
-        <TextBlock Text="Private Server Link (Optional)" Style="{StaticResource Lbl}"/>
+        <TextBlock Text="Private Server Link / Code (Optional)" Style="{StaticResource Lbl}"/>
         <TextBox x:Name="TxtPrivateLink" Style="{StaticResource Input}" Margin="0,0,0,32"/>
 
         <Grid Margin="0,30,0,0">

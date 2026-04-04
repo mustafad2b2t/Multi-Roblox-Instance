@@ -32,13 +32,23 @@ namespace RobloxMultiLauncher.Views
 
             if (string.IsNullOrWhiteSpace(pid) && !string.IsNullOrWhiteSpace(plink))
             {
+                // Try to extract Place ID from various URL formats
                 var match = System.Text.RegularExpressions.Regex.Match(plink, @"roblox\.com/games/(\d+)");
-                if (match.Success) pid = match.Groups[1].Value;
+                if (match.Success) 
+                {
+                    pid = match.Groups[1].Value;
+                    TxtPlaceId.Text = pid; // Auto-fill if found
+                }
             }
 
             if (string.IsNullOrWhiteSpace(pid) || !System.Text.RegularExpressions.Regex.IsMatch(pid, @"^\d+$"))
             {
-                MessageBox.Show("Please enter a numeric Place ID (or provide a Private Server Link).", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+                string errorMsg = "Please enter a numeric Place ID.";
+                if (!string.IsNullOrWhiteSpace(plink))
+                {
+                    errorMsg = "We couldn't find a Place ID in your Private Server Link. Please enter it manually in the 'Place ID' field.";
+                }
+                MessageBox.Show(errorMsg, "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 

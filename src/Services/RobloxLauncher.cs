@@ -119,10 +119,23 @@ namespace RobloxMultiLauncher.Services
             return match.Success ? match.Groups[1].Value : null;
         }
 
-        private static string ParseAccessCode(string url)
+        private static string ParseAccessCode(string urlOrCode)
         {
-            var match = Regex.Match(url, @"privateServerLinkCode=([^&]+)");
-            return match.Success ? match.Groups[1].Value : null;
+            if (string.IsNullOrWhiteSpace(urlOrCode)) return null;
+
+            // 1) Standard private server link format
+            var match = Regex.Match(urlOrCode, @"privateServerLinkCode=([^&]+)");
+            if (match.Success) return match.Groups[1].Value;
+
+            // 2) Share link format (e.g. roblox.com/share?code=...)
+            var shareMatch = Regex.Match(urlOrCode, @"[?&]code=([^&]+)");
+            if (shareMatch.Success) return shareMatch.Groups[1].Value;
+
+            // 3) If it's not a URL at all, treat the entire input as the server code
+            if (!urlOrCode.Contains("://") && !urlOrCode.Contains("roblox.com"))
+                return urlOrCode.Trim();
+
+            return null;
         }
 
         public static async Task LaunchAllAsync(

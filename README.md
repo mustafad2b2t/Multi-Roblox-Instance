@@ -57,15 +57,50 @@ Minimal, responsive WPF interface inspired by modern IDE design.
 
 ---
 
-## 📚 Quick Start
+## 📖 How to Use
 
-1. Click **+ Add Account**
-2. Paste your `.ROBLOSECURITY` token
-3. Enter the **Place ID**
-4. Save account
-5. Click **Launch All**
+### 1. Adding Your Accounts
+*   Click the **+ Add Account** button on the main dashboard.
+*   **Display Username**: Enter a name to identify this account (e.g., "MainAcc" or "Alt1").
+*   **Roblox Cookie**: Paste your `.ROBLOSECURITY` cookie.
+    *   *Tip: Use the "How to get?" button in the dialog for a quick tutorial on extracting your cookie safely.*
+*   **Place ID (Game ID)**: The numeric ID of the game you want to join (found in the Roblox URL: `roblox.com/games/1234567/...`).
+*   **Private Server (Optional)**:
+    *   Paste a **Full Link** (like `https://www.roblox.com/share?code=...`).
+    *   OR paste just the **Server Code** (e.g., `22064a7b66a...`).
+    *   *Note: If you paste just a code, ensure the Place ID is also filled.*
 
-*(Optional)* Adjust delay and AFK settings in ⚙️ Settings panel.
+### 2. Launching Multiple Instances
+*   Once your accounts are added, you can click **▶ Play** next to any account to launch it individually.
+*   Click **🚀 Launch All** at the top to start all accounts one after another.
+*   Adjust the **Launch Delay** in the ⚙️ Settings if your PC needs more time between launches to prevent crashes.
+
+### 3. AFK Prevention
+*   To keep your accounts from being kicked for idling:
+    *   Click the **Toggle** button under the "AFK TOGGLE" column for specific accounts.
+    *   Or use **AFK All ON / OFF** at the top to control all windows at once.
+*   The status indicator will show **🟢 AFK ON** when active.
+
+### 4. Managing Saved Games
+*   Use the **🎮 Games** button to save frequently played games.
+*   Saving a game here makes it easier to select when adding new accounts or updating existing ones.
+
+---
+
+## 🛠️ Setup & Build
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mustafad2b2t/ProjeRoblox.git
+   ```
+2. Open `RobloxMultiLauncher.sln` with **Visual Studio 2022**.
+3. Ensure you have **.NET 6.0+** or **.NET Framework 4.8** installed.
+4. Build in `Release` mode and run the executable.
+
+---
+
+## 🔒 Security Note
+*   **Local Encryption**: Your cookies are encrypted using Windows DPAPI, meaning ONLY YOU can access them on your computer.
+*   **Open Source**: You can audit the code yourself to see how your data is handled. We never send your cookies to any external server.
 
 ---
 

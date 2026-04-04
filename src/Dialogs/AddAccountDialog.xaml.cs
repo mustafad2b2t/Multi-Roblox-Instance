@@ -55,12 +55,20 @@ namespace RobloxMultiLauncher.Dialogs
             {
                 var match = System.Text.RegularExpressions.Regex.Match(privateLink, @"roblox\.com/games/(\d+)");
                 if (match.Success)
+                {
                     placeId = match.Groups[1].Value;
+                    TxtPlaceId.Text = placeId; // UI update
+                }
             }
 
             if (string.IsNullOrWhiteSpace(placeId) || !System.Text.RegularExpressions.Regex.IsMatch(placeId, @"^\d+$"))
             {
-                ShowError("Place ID must be a numeric value.\nExample: 480700040\n(Required unless a valid Private Server Link is provided)");
+                string errorMsg = "Place ID (Game ID) must be a numeric value.";
+                if (!string.IsNullOrWhiteSpace(privateLink))
+                {
+                    errorMsg = "We couldn't find a Place ID in your Private Server Link. Please enter it manually in the 'Place ID' field.";
+                }
+                ShowError(errorMsg);
                 TxtPlaceId.Focus();
                 return;
             }

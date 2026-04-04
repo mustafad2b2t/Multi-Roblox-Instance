@@ -91,7 +91,7 @@
             </StackPanel>
 
             <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,4,0">
-                <TextBlock Text="Private Server Link (Optional)" Foreground="#858585" FontSize="11" Margin="0,0,0,4"/>
+                <TextBlock Text="Private Server Link / Code (Optional)" Foreground="#858585" FontSize="11" Margin="0,0,0,4"/>
                 <TextBox x:Name="TxtPrivateLink" Style="{StaticResource Input}"/>
             </StackPanel>
 
