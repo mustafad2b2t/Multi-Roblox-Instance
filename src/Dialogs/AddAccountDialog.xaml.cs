@@ -33,7 +33,6 @@ namespace RobloxMultiLauncher.Dialogs
             string username = TxtUsername.Text.Trim();
             string cookie   = PbCookie.Password.Trim();
             string placeId  = TxtPlaceId.Text.Trim();
-            string privateLink = TxtPrivateLink.Text.Trim();
 
             // ── Validation ─────────────────────────────────────────────────────
             if (string.IsNullOrWhiteSpace(username))
@@ -50,25 +49,9 @@ namespace RobloxMultiLauncher.Dialogs
                 return;
             }
 
-            // If private link is provided, try to extract placeId if not already set
-            if (string.IsNullOrWhiteSpace(placeId) && !string.IsNullOrWhiteSpace(privateLink))
-            {
-                var match = System.Text.RegularExpressions.Regex.Match(privateLink, @"roblox\.com/games/(\d+)");
-                if (match.Success)
-                {
-                    placeId = match.Groups[1].Value;
-                    TxtPlaceId.Text = placeId; // UI update
-                }
-            }
-
             if (string.IsNullOrWhiteSpace(placeId) || !System.Text.RegularExpressions.Regex.IsMatch(placeId, @"^\d+$"))
             {
-                string errorMsg = "Place ID (Game ID) must be a numeric value.";
-                if (!string.IsNullOrWhiteSpace(privateLink))
-                {
-                    errorMsg = "We couldn't find a Place ID in your Private Server Link. Please enter it manually in the 'Place ID' field.";
-                }
-                ShowError(errorMsg);
+                ShowError("Place ID must be a numeric value.\nExample: 480700040");
                 TxtPlaceId.Focus();
                 return;
             }
@@ -78,7 +61,6 @@ namespace RobloxMultiLauncher.Dialogs
                 Username = username,
                 Cookie   = cookie,
                 PlaceId  = placeId,
-                PrivateServerLink = privateLink,
                 Status   = "⬜ Stopped"
             };
 

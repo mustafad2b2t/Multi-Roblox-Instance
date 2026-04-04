@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Win32;
@@ -74,68 +73,17 @@ namespace RobloxMultiLauncher.Services
             // 1) Securely fetch one-time launch ticket
             string ticket = await GetAuthTicketAsync(account.Cookie);
 
-            // 2) Determine Join URL (Public vs Private)
-            string joinUrl;
-            string privateLink = account.PrivateServerLink;
-
-            if (!string.IsNullOrWhiteSpace(privateLink))
-            {
-                // Parse Private Server Link
-                string placeId = ParsePlaceId(privateLink) ?? account.PlaceId;
-                string accessCode = ParseAccessCode(privateLink);
-
-                if (!string.IsNullOrEmpty(accessCode))
-                {
-                    joinUrl = $"https://assetgame.roblox.com/game/PlaceLauncher.ashx?request=RequestPrivateGame&browserTrackerId=0&placeId={placeId}&accessCode={accessCode}&isPlayTogetherGame=false";
-                }
-                else
-                {
-                    // Fallback to normal join if code is missing but link is present
-                    joinUrl = $"https://assetgame.roblox.com/game/PlaceLauncher.ashx?request=RequestGame&browserTrackerId=0&placeId={placeId}&isPlayTogetherGame=false";
-                }
-            }
-            else
-            {
-                // Normal Join
-                joinUrl = $"https://assetgame.roblox.com/game/PlaceLauncher.ashx?request=RequestGame&browserTrackerId=0&placeId={account.PlaceId}&isPlayTogetherGame=false";
-            }
-
-            // 3) Launch Roblox Player
+            // 2) Launch Roblox Player directly using strict command-line arguments to bypass browser hooks
             ProcessStartInfo psi = new ProcessStartInfo
             {
                 FileName = exePath,
-                Arguments = $"--app --play -t {ticket} -j \"{joinUrl}\" -b 0 --launchtime={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()} --rloc en_us --gloc en_us",
+                Arguments = $"--app --play -t {ticket} -j \"https://assetgame.roblox.com/game/PlaceLauncher.ashx?request=RequestGame&browserTrackerId=0&placeId={account.PlaceId}&isPlayTogetherGame=false\" -b 0 --launchtime={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()} --rloc en_us --gloc en_us",
                 UseShellExecute = false,
                 CreateNoWindow = false
             };
 
             Process proc = Process.Start(psi);
             return proc;
-        }
-
-        private static string ParsePlaceId(string url)
-        {
-            var match = Regex.Match(url, @"roblox\.com/games/(\d+)");
-            return match.Success ? match.Groups[1].Value : null;
-        }
-
-        private static string ParseAccessCode(string urlOrCode)
-        {
-            if (string.IsNullOrWhiteSpace(urlOrCode)) return null;
-
-            // 1) Standard private server link format
-            var match = Regex.Match(urlOrCode, @"privateServerLinkCode=([^&]+)");
-            if (match.Success) return match.Groups[1].Value;
-
-            // 2) Share link format (e.g. roblox.com/share?code=...)
-            var shareMatch = Regex.Match(urlOrCode, @"[?&]code=([^&]+)");
-            if (shareMatch.Success) return shareMatch.Groups[1].Value;
-
-            // 3) If it's not a URL at all, treat the entire input as the server code
-            if (!urlOrCode.Contains("://") && !urlOrCode.Contains("roblox.com"))
-                return urlOrCode.Trim();
-
-            return null;
         }
 
         public static async Task LaunchAllAsync(

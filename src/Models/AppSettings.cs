@@ -6,9 +6,8 @@ namespace RobloxMultiLauncher.Models
     {
         public string Name { get; set; }
         public string PlaceId { get; set; }
-        public string PrivateServerLink { get; set; }
 
-        public override string ToString() => string.IsNullOrWhiteSpace(PrivateServerLink) ? $"{Name} ({PlaceId})" : $"🔒 {Name} (Private)";
+        public override string ToString() => $"{Name} ({PlaceId})";
     }
 
     public class AppSettings

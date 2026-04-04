@@ -22,40 +22,22 @@ namespace RobloxMultiLauncher.Views
         {
             string name = TxtName.Text.Trim();
             string pid = TxtPlaceId.Text.Trim();
-            string plink = TxtPrivateLink.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(pid) || !System.Text.RegularExpressions.Regex.IsMatch(pid, @"^\d+$"))
             {
-                MessageBox.Show("Please enter a Game Name.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter a valid Game Name and a numeric Place ID.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(pid) && !string.IsNullOrWhiteSpace(plink))
+            if (Games.Any(g => g.PlaceId == pid))
             {
-                // Try to extract Place ID from various URL formats
-                var match = System.Text.RegularExpressions.Regex.Match(plink, @"roblox\.com/games/(\d+)");
-                if (match.Success) 
-                {
-                    pid = match.Groups[1].Value;
-                    TxtPlaceId.Text = pid; // Auto-fill if found
-                }
-            }
-
-            if (string.IsNullOrWhiteSpace(pid) || !System.Text.RegularExpressions.Regex.IsMatch(pid, @"^\d+$"))
-            {
-                string errorMsg = "Please enter a numeric Place ID.";
-                if (!string.IsNullOrWhiteSpace(plink))
-                {
-                    errorMsg = "We couldn't find a Place ID in your Private Server Link. Please enter it manually in the 'Place ID' field.";
-                }
-                MessageBox.Show(errorMsg, "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("A game with this Place ID already exists.", "Duplicate", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            Games.Add(new SavedGame { Name = name, PlaceId = pid, PrivateServerLink = plink });
+            Games.Add(new SavedGame { Name = name, PlaceId = pid });
             TxtName.Clear();
             TxtPlaceId.Clear();
-            TxtPrivateLink.Clear();
             DidChange = true;
         }
 

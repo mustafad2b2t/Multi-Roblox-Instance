@@ -39,13 +39,6 @@ namespace RobloxMultiLauncher.Models
             set { _placeId = value; OnPropertyChanged(nameof(PlaceId)); }
         }
 
-        private string _privateServerLink;
-        public string PrivateServerLink
-        {
-            get => _privateServerLink;
-            set { _privateServerLink = value; OnPropertyChanged(nameof(PrivateServerLink)); }
-        }
-
         [JsonIgnore]
         public string Status
         {
